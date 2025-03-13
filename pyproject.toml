@@ -1,0 +1,84 @@
+[tool.poetry]
+name = "nuropb_examples"
+version = "0.1.8"
+description = "Various code exmaples using the nuropb async package"
+authors = ["Robert Betts <robert.betts@genoa.io>"]
+readme = "README.md"
+license = "Apache-2.0"
+homepage = "https://github.com/robertbetts/nuropb_examples"
+repository = "https://github.com/robertbetts/nuropb_examples"
+documentation = "https://nuropb.readthedocs.io/en/latest/"
+keywords = ["python", "asynchrous", "api", "event", "rpc", "distributed", "ddd", "sevice-mesh"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent"
+]
+packages = [
+    {include = "agent", from ="src"}
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+python-dotenv = "^1.0.0"
+nuropb = "^0.1.8"
+gunicorn = "^23.0.0"
+
+[tool.poetry.group.dev.dependencies]
+poetry = "^1.5.1"
+pytest = "^7.3.1"
+coverage = {extras = ["toml"], version = "^7.2.7"}
+pytest-dotenv = "0.5.2"
+black = "^23.3.0"
+mypy = "^1.4.1"
+pytest-asyncio = "^0.21.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest]
+
+
+[tool.pytest.ini_options]
+env_files = [".env"]
+testpaths = ["tests"]
+asyncio_mode = "strict"
+log_cli = true
+log_level = "DEBUG"
+log_cli_format = " %(levelname).1s %(asctime)s,%(msecs)d %(module)s %(lineno)s %(message)s"
+log_cli_date_format = "%d %H:%M:%S"
+
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+
+[tool.coverage.report]
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:"
+]
+show_missing = true
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+files = "examples"
+mypy_path = "examples"
+namespace_packages = true
+explicit_package_bases = true
+show_error_codes = true
+#strict = true
+enable_error_code = [
+    "ignore-without-code",
+    "redundant-expr",
+    "truthy-bool",
+]
+exclude = [
+    "tests",
+]
+
+[tool.pylint]
+#ignore-paths = "tests"
+notes = "FIXME,XXX,FUTURE"
